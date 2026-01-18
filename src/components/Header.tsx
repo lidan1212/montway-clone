@@ -7,28 +7,31 @@ import { Menu, X, ChevronDown, Phone } from "lucide-react";
 const navItems = [
   {
     label: "How It Works",
-    href: "#how-it-works",
-    submenu: [
-      { label: "How to ship a car", href: "#" },
-      { label: "Car shipping costs", href: "#" },
-      { label: "Cross country car shipping", href: "#" },
-    ],
+    href: "/how-it-works",
   },
   {
     label: "Services",
-    href: "#services",
+    href: "/services",
     submenu: [
-      { label: "Door-to-door transport", href: "#" },
-      { label: "Open car transport", href: "#" },
-      { label: "Enclosed auto transport", href: "#" },
-      { label: "Expedited auto transport", href: "#" },
-      { label: "Hawaii car transport", href: "#" },
-      { label: "Motorcycle shipping", href: "#" },
+      { label: "Door-to-Door Shipping", href: "/services" },
+      { label: "Open Car Transport", href: "/services" },
+      { label: "Enclosed Auto Transport", href: "/services" },
+      { label: "Expedited Shipping", href: "/services" },
+      { label: "Hawaii Car Shipping", href: "/services" },
+      { label: "Motorcycle Shipping", href: "/services" },
     ],
   },
   {
+    label: "About",
+    href: "/about",
+  },
+  {
     label: "Blog",
-    href: "#blog",
+    href: "/blog",
+  },
+  {
+    label: "Contact",
+    href: "/contact",
   },
 ];
 

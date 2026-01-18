@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star } from "lucide-react";
 
 const reviews = [
   {
@@ -28,99 +27,94 @@ const reviews = [
     review: "Olympic Auto Transport is the best! Their pricing is competitive, and they handled my car with great care during transport.",
     date: "September 17, 2024",
   },
+  {
+    name: "Jennifer S.",
+    rating: 5,
+    review: "I'm so happy with Olympic Auto Transport's service. They were punctual, professional, and kept me updated throughout the process.",
+    date: "September 18, 2024",
+  },
+  {
+    name: "Robert B.",
+    rating: 5,
+    review: "Olympic Auto Transport delivered my car safely and on time. Their customer service was top-notch, and I'd use them again.",
+    date: "September 19, 2024",
+  },
+  {
+    name: "Anna W.",
+    rating: 5,
+    review: "Excellent service from Olympic Auto Transport. My car arrived in great condition, and their team was very professional.",
+    date: "September 20, 2024",
+  },
+  {
+    name: "Thomas C.",
+    rating: 5,
+    review: "Olympic Auto Transport made the process seamless. Their pricing was fair, and my car arrived without any issues.",
+    date: "September 21, 2024",
+  },
 ];
 
 export default function ReviewsCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % reviews.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const nextReview = () => {
-    setCurrentIndex((prev) => (prev + 1) % reviews.length);
-  };
-
-  const prevReview = () => {
-    setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
-  };
+  // Double the reviews for seamless infinite scroll
+  const duplicatedReviews = [...reviews, ...reviews];
 
   return (
-    <section className="bg-white py-12 border-b">
-      <div className="container-custom">
-        <p className="text-center text-gray-700 mb-8 text-lg">
+    <section className="bg-white py-10 border-b overflow-hidden">
+      <div className="container-custom mb-6">
+        <p className="text-center text-gray-700 text-lg">
           Read what other customers say about their experience with one of the best rated auto transport companies:
         </p>
+      </div>
 
-        <div className="relative max-w-4xl mx-auto">
-          <div className="overflow-hidden">
+      {/* Scrolling container */}
+      <div className="relative">
+        <div className="flex animate-scroll gap-4 hover:pause-animation">
+          {duplicatedReviews.map((review, index) => (
             <div
-              className="flex transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              key={`${review.name}-${index}`}
+              className="flex-shrink-0 w-72 bg-gray-50 rounded-lg p-5 border border-gray-100"
             >
-              {reviews.map((review, index) => (
-                <div
-                  key={`${review.name}-${index}`}
-                  className="w-full flex-shrink-0 px-4"
-                >
-                  <div className="bg-gray-50 rounded-xl p-8 text-center">
-                    <div className="font-semibold text-gray-900 mb-2">{review.name}</div>
-                    <div className="flex justify-center gap-1 mb-4">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <Star
-                          key={`star-${i}-${review.name}`}
-                          className="w-5 h-5 fill-[#F5C518] text-[#F5C518]"
-                        />
-                      ))}
-                      <span className="ml-2 text-[#F5C518] font-semibold">5.0</span>
-                    </div>
-                    <p className="text-gray-700 mb-4">{review.review}</p>
-                    <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-                      <span>{review.date}</span>
-                      <img
-                        src="https://ext.same-assets.com/290144988/2907112206.png"
-                        alt="Google"
-                        className="h-5 ml-2"
-                      />
-                    </div>
-                  </div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-semibold text-gray-900 text-sm">{review.name}</span>
+                <div className="flex gap-0.5">
+                  {[...Array(review.rating)].map((_, i) => (
+                    <Star
+                      key={`star-${i}-${review.name}-${index}`}
+                      className="w-3 h-3 fill-[#F5C518] text-[#F5C518]"
+                    />
+                  ))}
                 </div>
-              ))}
+                <span className="text-[#F5C518] font-semibold text-sm">5.0</span>
+              </div>
+              <p className="text-gray-600 text-sm line-clamp-3 mb-2">{review.review}</p>
+              <div className="flex items-center gap-2 text-xs text-gray-400">
+                <span>{review.date}</span>
+                <img
+                  src="https://ext.same-assets.com/290144988/2907112206.png"
+                  alt="Google"
+                  className="h-4"
+                />
+              </div>
             </div>
-          </div>
-
-          <button
-            onClick={prevReview}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition"
-            aria-label="Previous review"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
-          </button>
-          <button
-            onClick={nextReview}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 transition"
-            aria-label="Next review"
-          >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
-          </button>
-
-          <div className="flex justify-center gap-2 mt-6">
-            {reviews.map((_, index) => (
-              <button
-                key={`dot-${reviews[index].name}-${index}`}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? "bg-[#F5C518]" : "bg-gray-300"
-                }`}
-                aria-label={`Go to review ${index + 1}`}
-              />
-            ))}
-          </div>
+          ))}
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+        }
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   );
 }
